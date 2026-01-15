@@ -1,0 +1,32 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-DependencyInjection", "01-DependencyInjection", "{F0E9DAA6-D665-47D8-6AEF-6F1C0D40B0B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BasicDI", "BasicDI", "{FBBFF7AA-2835-2216-90D3-16B89C706659}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicDI", "01-DependencyInjection\BasicDI\BasicDI\BasicDI.csproj", "{20DDF0FE-5561-FD5A-4678-B5DF9F39AB2A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{20DDF0FE-5561-FD5A-4678-B5DF9F39AB2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20DDF0FE-5561-FD5A-4678-B5DF9F39AB2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20DDF0FE-5561-FD5A-4678-B5DF9F39AB2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20DDF0FE-5561-FD5A-4678-B5DF9F39AB2A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FBBFF7AA-2835-2216-90D3-16B89C706659} = {F0E9DAA6-D665-47D8-6AEF-6F1C0D40B0B9}
+		{20DDF0FE-5561-FD5A-4678-B5DF9F39AB2A} = {FBBFF7AA-2835-2216-90D3-16B89C706659}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0CE21AEC-0A7A-414E-9FF8-EDF42FF6209C}
+	EndGlobalSection
+EndGlobal

@@ -100,6 +100,20 @@ This repository is organized into 8 progressive modules, each focusing on critic
 
 ---
 
+### 9. Enterprise CRUD API (09-EnterpriseCRUD/)
+**Goal**: Build production-ready APIs combining all modern patterns
+
+- **Task Management API**: Complete enterprise application
+  - Clean Architecture with CQRS
+  - OAuth2/OpenID Connect security
+  - .NET Aspire orchestration
+  - PostgreSQL with Entity Framework Core
+  - Comprehensive validation and error handling
+
+**Key Skills**: Integrating multiple patterns, production-ready development, cloud-native applications
+
+---
+
 ## Getting Started
 
 ### Prerequisites
@@ -147,7 +161,8 @@ netLearn/
 ├── 05-DistributedSystems/      # Distributed architecture
 ├── 06-CloudNative/             # Cloud-native patterns
 ├── 07-ArchitecturePatterns/    # Common patterns
-└── 08-AdvancedTopics/          # DDD, Event Sourcing, Resilience
+├── 08-AdvancedTopics/          # DDD, Event Sourcing, Resilience
+└── 09-EnterpriseCRUD/          # Complete enterprise CRUD API
 ```
 
 ## Key Architectural Principles Covered
@@ -253,6 +268,11 @@ Use this checklist to track your progress:
   - [ ] DomainDrivenDesign
   - [ ] EventSourcing
   - [ ] Resilience
+- [ ] 09-EnterpriseCRUD
+  - [ ] Task Management API with Clean Architecture
+  - [ ] CQRS implementation
+  - [ ] OAuth2/OpenID Connect security
+  - [ ] .NET Aspire orchestration
 
 ## Contributing to Your Learning
 

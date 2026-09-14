@@ -1,0 +1,27 @@
+<Project>
+
+  <!--
+    Shared settings for every project in this repository.
+
+    MSBuild imports this file automatically for any project underneath it, so
+    individual .csproj files only need to declare what makes them different
+    (output type, package references, project references).
+  -->
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <!--
+      Learning repository: surface problems loudly rather than burying them in
+      build output. Nullability mistakes and unawaited tasks are exactly the
+      bugs these modules teach you to avoid, so they fail the build.
+    -->
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors>nullable;CS4014;CS1998</WarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+</Project>

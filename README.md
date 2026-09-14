@@ -2,9 +2,31 @@
 
 A comprehensive, hands-on learning repository designed to master .NET architecture concepts and patterns. This repository contains practical projects and examples to help you become a successful software architect.
 
+## Current Status
+
+This repository is being built out module by module. Not every module is ready
+to work through yet — this table is the source of truth for what actually runs:
+
+| Module | Written material | Runnable code | Status |
+|---|---|---|---|
+| 01 · BasicDI | ✅ | ✅ | **Ready** |
+| 01 · DILifetimes | ✅ | ✅ | **Ready** |
+| 01 · AdvancedDI | ✅ | ⬜ | Exercise written, project is still a stub |
+| 02 · Asynchronous Processing | ✅ | ⬜ | Exercises written, no projects yet |
+| 03 · Clean Architecture | Outline | ⬜ | Module README only |
+| 04 · Vertical Slice | Outline | ⬜ | Module README only |
+| 05 · Distributed Systems | Outline | ⬜ | Module README only |
+| 06 · Cloud Native | Outline | ⬜ | Module README only |
+| 07 · Architecture Patterns | Outline | ⬜ | Module README only |
+| 08 · Advanced Topics | Outline | ⬜ | Module README only |
+| 09 · Enterprise CRUD | ✅ | ⬜ | Full guide written, no project yet |
+
+Modules are completed depth-first: a module gets its code, exercises, reference
+solution, and tests all together before the next one starts.
+
 ## Learning Path Overview
 
-This repository is organized into 8 progressive modules, each focusing on critical architectural concepts:
+This repository is organized into 9 progressive modules, each focusing on critical architectural concepts:
 
 ### 1. Dependency Injection (01-DependencyInjection/)
 **Goal**: Master IoC containers and DI patterns in .NET
@@ -117,7 +139,7 @@ This repository is organized into 8 progressive modules, each focusing on critic
 ## Getting Started
 
 ### Prerequisites
-- .NET 8.0 SDK or later
+- .NET 9.0 SDK (pinned in `global.json`; every project targets `net9.0`)
 - Visual Studio 2022 / Rider / VS Code
 - Docker (for distributed systems examples)
 - Basic understanding of C# and OOP principles
@@ -138,7 +160,7 @@ dotnet run
 ## Learning Approach
 
 ### Recommended Path
-1. **Sequential Learning**: Follow modules 1-8 in order for a structured path
+1. **Sequential Learning**: Follow modules 1-9 in order for a structured path
 2. **Hands-On Practice**: Each project includes exercises and challenges
 3. **Build Projects**: Apply concepts by building real-world scenarios
 4. **Review & Refactor**: Revisit earlier modules with new knowledge
@@ -154,6 +176,10 @@ dotnet run
 ## Project Structure
 ```
 netLearn/
+├── netLearn.sln                # All projects; `dotnet build` at the root builds everything
+├── global.json                 # Pins the .NET SDK
+├── Directory.Build.props       # Shared TargetFramework / nullable / warning settings
+├── Directory.Packages.props    # Central package versions (csproj files omit Version)
 ├── 01-DependencyInjection/     # IoC and DI fundamentals
 ├── 02-AsynchronousProcessing/  # Async patterns and parallelism
 ├── 03-CleanArchitecture/       # Clean Architecture implementation
@@ -164,6 +190,24 @@ netLearn/
 ├── 08-AdvancedTopics/          # DDD, Event Sourcing, Resilience
 └── 09-EnterpriseCRUD/          # Complete enterprise CRUD API
 ```
+
+### Anatomy of a Project
+
+Every exercise project follows the same shape, so once you've done one you know
+your way around all of them:
+
+```
+<Module>/<Project>/
+├── README.md           # The concepts: what this teaches and why it matters
+├── GETTING_STARTED.md  # How to run it, and how the folders are laid out
+├── EXERCISE.md         # Step-by-step work for you to do
+├── <Project>/          # Your workspace — you write the code here
+├── solution/           # Reference implementation, for when you get stuck
+└── tests/              # Tests proving the behaviour the exercise teaches
+```
+
+Try the exercise first and only open `solution/` to compare afterwards — reading
+it early is the fastest way to feel productive and learn nothing.
 
 ## Key Architectural Principles Covered
 

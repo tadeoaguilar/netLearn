@@ -35,6 +35,24 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Channels.Solution", "02-Asy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Channels.Tests", "02-AsynchronousProcessing\Channels\tests\Channels.Tests.csproj", "{B7AC492A-432F-4F33-BA48-DC568270944E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03-CleanArchitecture", "03-CleanArchitecture", "{B58CA46B-8585-4F02-9260-9214B9562FAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.Domain", "03-CleanArchitecture\CleanArchitectureDemo\src\CleanArchitecture.Domain\CleanArchitecture.Domain.csproj", "{A4D00F4C-52C4-4398-8518-41CF92A486C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.Application", "03-CleanArchitecture\CleanArchitectureDemo\src\CleanArchitecture.Application\CleanArchitecture.Application.csproj", "{8C4FD9A2-AE98-4FA1-A93A-1B8BB10AB20F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.Infrastructure", "03-CleanArchitecture\CleanArchitectureDemo\src\CleanArchitecture.Infrastructure\CleanArchitecture.Infrastructure.csproj", "{03B407C4-5CCD-4557-B120-47E163A6488C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.WebApi", "03-CleanArchitecture\CleanArchitectureDemo\src\CleanArchitecture.WebApi\CleanArchitecture.WebApi.csproj", "{6EB56FD5-6926-4131-A74F-7A23E635B583}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitecture.Tests", "03-CleanArchitecture\CleanArchitectureDemo\tests\CleanArchitecture.Tests\CleanArchitecture.Tests.csproj", "{B3850D6A-FC1B-42D0-98A1-A62AE97F8FA1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04-VerticalSliceArchitecture", "04-VerticalSliceArchitecture", "{49CF0510-AD31-45EF-9CEC-DE7BD2A5ABC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerticalSlice.Api", "04-VerticalSliceArchitecture\VerticalSliceDemo\src\VerticalSlice.Api\VerticalSlice.Api.csproj", "{3821031D-FCEF-4B16-9672-170C20CA056B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerticalSlice.Tests", "04-VerticalSliceArchitecture\VerticalSliceDemo\tests\VerticalSlice.Tests\VerticalSlice.Tests.csproj", "{5608BFD5-A6F4-4B39-9F2D-10C04EBBBB45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -100,6 +118,34 @@ Global
 		{B7AC492A-432F-4F33-BA48-DC568270944E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7AC492A-432F-4F33-BA48-DC568270944E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7AC492A-432F-4F33-BA48-DC568270944E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4D00F4C-52C4-4398-8518-41CF92A486C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4D00F4C-52C4-4398-8518-41CF92A486C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4D00F4C-52C4-4398-8518-41CF92A486C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4D00F4C-52C4-4398-8518-41CF92A486C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C4FD9A2-AE98-4FA1-A93A-1B8BB10AB20F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C4FD9A2-AE98-4FA1-A93A-1B8BB10AB20F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C4FD9A2-AE98-4FA1-A93A-1B8BB10AB20F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C4FD9A2-AE98-4FA1-A93A-1B8BB10AB20F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03B407C4-5CCD-4557-B120-47E163A6488C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03B407C4-5CCD-4557-B120-47E163A6488C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03B407C4-5CCD-4557-B120-47E163A6488C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03B407C4-5CCD-4557-B120-47E163A6488C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EB56FD5-6926-4131-A74F-7A23E635B583}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EB56FD5-6926-4131-A74F-7A23E635B583}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EB56FD5-6926-4131-A74F-7A23E635B583}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EB56FD5-6926-4131-A74F-7A23E635B583}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3850D6A-FC1B-42D0-98A1-A62AE97F8FA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3850D6A-FC1B-42D0-98A1-A62AE97F8FA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3850D6A-FC1B-42D0-98A1-A62AE97F8FA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3850D6A-FC1B-42D0-98A1-A62AE97F8FA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3821031D-FCEF-4B16-9672-170C20CA056B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3821031D-FCEF-4B16-9672-170C20CA056B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3821031D-FCEF-4B16-9672-170C20CA056B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3821031D-FCEF-4B16-9672-170C20CA056B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5608BFD5-A6F4-4B39-9F2D-10C04EBBBB45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5608BFD5-A6F4-4B39-9F2D-10C04EBBBB45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5608BFD5-A6F4-4B39-9F2D-10C04EBBBB45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5608BFD5-A6F4-4B39-9F2D-10C04EBBBB45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F9D38041-0F7F-41CF-83E4-30025699589E} = {DD96AA7F-4A3E-45DC-B57F-E9E4757D9FD6}
@@ -116,5 +162,12 @@ Global
 		{976DF654-67F6-4500-B5C9-295DE364DCA2} = {8862B8C7-B344-48CE-8822-0937045D9CBA}
 		{EB1928C9-C2B0-49FC-A193-03CF9517ADCB} = {8862B8C7-B344-48CE-8822-0937045D9CBA}
 		{B7AC492A-432F-4F33-BA48-DC568270944E} = {8862B8C7-B344-48CE-8822-0937045D9CBA}
+		{A4D00F4C-52C4-4398-8518-41CF92A486C1} = {B58CA46B-8585-4F02-9260-9214B9562FAF}
+		{8C4FD9A2-AE98-4FA1-A93A-1B8BB10AB20F} = {B58CA46B-8585-4F02-9260-9214B9562FAF}
+		{03B407C4-5CCD-4557-B120-47E163A6488C} = {B58CA46B-8585-4F02-9260-9214B9562FAF}
+		{6EB56FD5-6926-4131-A74F-7A23E635B583} = {B58CA46B-8585-4F02-9260-9214B9562FAF}
+		{B3850D6A-FC1B-42D0-98A1-A62AE97F8FA1} = {B58CA46B-8585-4F02-9260-9214B9562FAF}
+		{3821031D-FCEF-4B16-9672-170C20CA056B} = {49CF0510-AD31-45EF-9CEC-DE7BD2A5ABC8}
+		{5608BFD5-A6F4-4B39-9F2D-10C04EBBBB45} = {49CF0510-AD31-45EF-9CEC-DE7BD2A5ABC8}
 	EndGlobalSection
 EndGlobal

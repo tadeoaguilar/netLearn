@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The Domain layer has NO PackageReference and NO ProjectReference.
+
+    That emptiness is the architecture. If you ever need to add one here, stop
+    and ask what leaked inward: a domain that references EF Core or ASP.NET is
+    no longer independent of them, and the dependency rule is void.
+
+    DomainDependencyTests in the test project asserts this stays true.
+  -->
+
+</Project>

@@ -15,8 +15,8 @@ to work through yet — this table is the source of truth for what actually runs
 | 02 · AsyncAwait | ✅ | ✅ | **Ready** — 19 tests |
 | 02 · TaskParallelLibrary | ✅ | ✅ | **Ready** — 18 tests |
 | 02 · Channels | ✅ | ✅ | **Ready** — 18 tests |
-| 03 · Clean Architecture | Outline | ⬜ | Module README only |
-| 04 · Vertical Slice | Outline | ⬜ | Module README only |
+| 03 · Clean Architecture | ✅ | ✅ | **Ready** — 41 tests |
+| 04 · Vertical Slice | ✅ | ✅ | **Ready** — 23 tests |
 | 05 · Distributed Systems | Outline | ⬜ | Module README only |
 | 06 · Cloud Native | Outline | ⬜ | Module README only |
 | 07 · Architecture Patterns | Outline | ⬜ | Module README only |

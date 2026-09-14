@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    ONE project, not four.
+
+    Module 03 splits the same feature set across Domain, Application,
+    Infrastructure and WebApi. Here everything for a feature lives in one folder
+    and the only separation is Features/ versus Common/. Compare the two and
+    decide which you would rather change under deadline.
+  -->
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+  </ItemGroup>
+
+</Project>

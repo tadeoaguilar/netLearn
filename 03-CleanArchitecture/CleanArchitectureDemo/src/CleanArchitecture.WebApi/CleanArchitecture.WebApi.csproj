@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    The composition root. It is the ONLY project that references Infrastructure,
+    and it does so purely to call AddInfrastructure(). No endpoint ever names a
+    concrete repository.
+  -->
+
+  <ItemGroup>
+    <ProjectReference Include="../CleanArchitecture.Application/CleanArchitecture.Application.csproj" />
+    <ProjectReference Include="../CleanArchitecture.Infrastructure/CleanArchitecture.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

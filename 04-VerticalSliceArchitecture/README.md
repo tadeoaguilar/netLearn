@@ -57,6 +57,41 @@ Complete implementation with:
 - Minimal shared code
 - Comparison with traditional approach
 
+## Running This Module
+
+```bash
+dotnet test 04-VerticalSliceArchitecture/VerticalSliceDemo/tests/VerticalSlice.Tests   # 23 tests
+dotnet run  --project 04-VerticalSliceArchitecture/VerticalSliceDemo/src/VerticalSlice.Api
+```
+
+## The Comparison, Measured
+
+This module implements **the same seven endpoints** as
+[03-CleanArchitecture](../03-CleanArchitecture/) — identical routes, status
+codes and JSON. Holding the problem constant is what makes comparing the two
+worth anything.
+
+| | Clean Architecture (03) | Vertical Slice (04) |
+|---|---|---|
+| Projects | 4 | 1 |
+| Source files | 32 | 16 |
+| Source lines | ~1,290 | ~859 |
+| Files touched to add "create a project" | **5**, across 3 projects | **1** |
+| Where a business rule lives | on the entity | in the handler that needs it |
+| What a unit test needs | nothing (domain tests use plain objects) | a `DbContext` |
+| What stops a second caller skipping a rule | the entity does | nothing — you must remember |
+
+The last two rows are the whole trade.
+
+Module 03 puts *"a task must be assigned before completion"* on
+`TaskItem.Complete()`, so every caller gets it whether they thought about it or
+not. Module 04 puts the same rule in `CompleteTaskHandler`, right next to the
+code that needed it — and a second feature completing tasks must repeat it.
+
+Neither is a mistake. They optimise against different risks, and
+`VerticalSliceDemo/EXERCISE.md` Part 3 makes you feel the difference rather than
+take anyone's word for it.
+
 ## Key Concepts
 
 ### Feature Slice Components

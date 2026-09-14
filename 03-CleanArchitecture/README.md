@@ -120,6 +120,28 @@ public class OrderRepository : IOrderRepository
 - Dependency injection setup
 - **Dependencies**: Application, Infrastructure (for DI only)
 
+## Running This Module
+
+```bash
+dotnet test 03-CleanArchitecture/CleanArchitectureDemo/tests/CleanArchitecture.Tests   # 41 tests
+dotnet run  --project 03-CleanArchitecture/CleanArchitectureDemo/src/CleanArchitecture.WebApi
+```
+
+`GET /` lists every endpoint. See [GETTING_STARTED.md](CleanArchitectureDemo/GETTING_STARTED.md)
+for a curl walkthrough, and [EXERCISE.md](CleanArchitectureDemo/EXERCISE.md) for the work.
+
+**This module implements the same API as
+[04-VerticalSliceArchitecture](../04-VerticalSliceArchitecture/), deliberately.**
+Same routes, same status codes, same JSON — only the internal organisation
+differs, so the two can be compared with the problem held constant.
+
+### The Tests Enforce the Architecture
+
+`ArchitectureTests.cs` reads the compiled assemblies and fails if `Domain` ever
+references EF Core or ASP.NET, or if `Application` ever references
+`Infrastructure`. A dependency rule that lives only in a README is a convention
+until the first deadline.
+
 ## Key Principles
 
 ### Dependency Rule

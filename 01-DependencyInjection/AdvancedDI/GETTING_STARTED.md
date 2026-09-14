@@ -4,40 +4,84 @@
 
 ### 1. Navigate to Project
 ```bash
-cd /Users/tadeo/gitlab/netLearn/01-DependencyInjection/AdvancedDI/AdvancedDI
+cd 01-DependencyInjection/AdvancedDI
 ```
 
 ### 2. Verify Setup
 ```bash
-dotnet build
+dotnet build ../../netLearn.sln
 ```
 
-### 3. Project Structure
-
-You'll create this as you work through exercises:
+### 3. What Is Already Here
 
 ```
 AdvancedDI/
-├── AdvancedDI.csproj        # Project file (ready)
-├── Program.cs               # You'll edit this for each part
-├── appsettings.json         # Configuration file (Part 3)
-├── Services/                # Create this folder
-│   ├── PaymentProcessors.cs
-│   ├── PaymentProcessorFactory.cs
-│   ├── OrderService.cs
-│   ├── OrderServiceDecorators.cs
-│   ├── NotificationServices.cs
-│   ├── ConditionalServices.cs
-│   └── ScopedOperation.cs
-└── Configuration/           # Create this folder
-    └── AppSettings.cs
+├── README.md                # The concepts behind each pattern
+├── EXERCISE.md              # The work, in 7 parts
+├── GETTING_STARTED.md       # This file
+│
+├── AdvancedDI/              # ← YOUR WORKSPACE. Write your code here.
+│   ├── AdvancedDI.csproj    #   ready to build
+│   ├── Program.cs           #   replace as you work through each part
+│   ├── appsettings.json     #   ready for Part 3
+│   ├── Services/            #   empty, waiting for your files
+│   └── Configuration/       #   empty, waiting for your files
+│
+├── solution/                # ← REFERENCE IMPLEMENTATION. Look after trying.
+│   ├── Services/            #   Parts 1-6
+│   ├── Challenge/           #   Part 7, the multi-tenant system
+│   └── Demos/               #   one runnable demo per part
+│
+└── tests/                   # ← 31 tests proving the behaviour
 ```
 
-### 4. Create Folders
+The folders and `appsettings.json` already exist, so you can start typing
+immediately rather than setting up scaffolding.
+
+### 4. The Three Commands You Need
+
 ```bash
-mkdir Services
-mkdir Configuration
+# Run your own work
+dotnet run --project AdvancedDI
+
+# Check your work against the tests
+dotnet test tests
+
+# See the reference solution run, one part at a time
+dotnet run --project solution -- 1      # Factory pattern
+dotnet run --project solution -- 2      # Decorator pattern
+dotnet run --project solution -- 3      # Options / configuration binding
+dotnet run --project solution -- 4      # Keyed services
+dotnet run --project solution -- 5      # Conditional registration
+dotnet run --project solution -- 6      # Service provider scopes
+dotnet run --project solution -- 7      # Challenge: multi-tenant notifications
+dotnet run --project solution -- all    # Everything in order
 ```
+
+Part 5 changes behaviour with the environment — that is the whole point of it:
+
+```bash
+DOTNET_ENVIRONMENT=Production dotnet run --project solution -- 5
+```
+
+### How to Use the Reference Solution
+
+`solution/` uses the same namespaces and type names as `EXERCISE.md`, so you can
+compare your file against its counterpart directly.
+
+Attempt each part yourself first. Open the reference when you are stuck or when
+you have finished a part and want to compare approaches — reading it up front is
+the fastest way to feel productive and learn nothing.
+
+The tests point at `solution/` out of the box. To run them against **your** code
+instead, edit the `ProjectReference` in `tests/AdvancedDI.Tests.csproj`:
+
+```xml
+<ProjectReference Include="../AdvancedDI/AdvancedDI.csproj" />
+```
+
+They will fail until you have written the types each test needs, which makes
+them a usable checklist for how far you have got.
 
 ### 5. Start Exercising
 Open [EXERCISE.md](EXERCISE.md) and begin with **Part 1: Factory Pattern**.

@@ -84,7 +84,7 @@ Choose your preferred IDE:
 ### 2.1 Navigate to Module Folder
 
 ```bash
-cd /Users/tadeo/gitlab/netLearn/09-EnterpriseCRUD
+cd 09-EnterpriseCRUD
 ```
 
 ### 2.2 Create Aspire Application

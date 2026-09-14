@@ -87,6 +87,24 @@ public class OrderService
 - Understanding of interfaces
 - Familiarity with SOLID principles (helpful)
 
+## Running This Module
+
+```bash
+# From the repository root
+dotnet build netLearn.sln          # all projects in the module
+dotnet test netLearn.sln           # all tests in the module
+```
+
+Each project holds three things: a workspace where you write code, a
+`solution/` folder with a reference implementation, and `tests/` proving the
+behaviour. Work the exercise first, then compare.
+
+| Project | Run the reference | Run the tests |
+|---|---|---|
+| BasicDI | `dotnet run --project 01-DependencyInjection/BasicDI/BasicDI` | — |
+| DILifetimes | `dotnet run --project 01-DependencyInjection/DILifetimes/DILifetimes` | — |
+| AdvancedDI | `dotnet run --project 01-DependencyInjection/AdvancedDI/solution -- all` | `dotnet test 01-DependencyInjection/AdvancedDI/tests` |
+
 ## Getting Started
 Start with [BasicDI](BasicDI/) and progress sequentially through the projects.
 

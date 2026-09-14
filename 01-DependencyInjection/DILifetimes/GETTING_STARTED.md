@@ -4,7 +4,7 @@
 
 ### 1. Navigate to the Project
 ```bash
-cd /Users/tadeo/gitlab/netLearn/01-DependencyInjection/DILifetimes/DILifetimes
+cd 01-DependencyInjection/DILifetimes/DILifetimes
 ```
 
 ### 2. Verify Setup
@@ -275,7 +275,7 @@ You'll be able to:
 
 1. Make sure you're in the right directory:
    ```bash
-   cd /Users/tadeo/gitlab/netLearn/01-DependencyInjection/DILifetimes/DILifetimes
+   cd 01-DependencyInjection/DILifetimes/DILifetimes
    ```
 
 2. Create the Services folder:

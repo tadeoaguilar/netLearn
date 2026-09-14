@@ -840,6 +840,23 @@ Console.WriteLine("\nDone!");
 - Implement `IOptionsSnapshot` for hot-reload of configuration
 - Add validation for configuration on startup
 
+### Checking Your Work
+
+A complete implementation of this challenge lives in `solution/Challenge/`, and
+`tests/ChallengeTests.cs` covers the behaviour that console output cannot show
+you — that retry stops at the configured budget, that a rate-limited send does
+not silently burn retries, and that one tenant's notifications never appear
+under another's name.
+
+```bash
+dotnet run --project solution -- 7   # watch it run
+dotnet test tests                    # prove it behaves
+```
+
+Build your own version first. When you compare, pay attention to **decorator
+order** — the reference wraps rate limiting outside retry outside logging, and
+`ChallengeTests` has a test for each reason why.
+
 ---
 
 ## Reflection Questions

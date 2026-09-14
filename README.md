@@ -11,7 +11,7 @@ to work through yet — this table is the source of truth for what actually runs
 |---|---|---|---|
 | 01 · BasicDI | ✅ | ✅ | **Ready** |
 | 01 · DILifetimes | ✅ | ✅ | **Ready** |
-| 01 · AdvancedDI | ✅ | ⬜ | Exercise written, project is still a stub |
+| 01 · AdvancedDI | ✅ | ✅ | **Ready** — 31 tests |
 | 02 · Asynchronous Processing | ✅ | ⬜ | Exercises written, no projects yet |
 | 03 · Clean Architecture | Outline | ⬜ | Module README only |
 | 04 · Vertical Slice | Outline | ⬜ | Module README only |

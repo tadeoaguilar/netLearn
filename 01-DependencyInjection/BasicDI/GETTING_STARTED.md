@@ -4,7 +4,7 @@
 
 ### 1. Navigate to the Project
 ```bash
-cd /Users/tadeo/gitlab/netLearn/01-DependencyInjection/BasicDI/BasicDI
+cd 01-DependencyInjection/BasicDI/BasicDI
 ```
 
 ### 2. Verify the Project Setup

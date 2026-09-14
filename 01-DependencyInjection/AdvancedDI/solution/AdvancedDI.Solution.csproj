@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <RootNamespace>AdvancedDI</RootNamespace>
+    <AssemblyName>AdvancedDI.Solution</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

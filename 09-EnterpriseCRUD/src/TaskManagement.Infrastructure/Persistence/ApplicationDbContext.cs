@@ -78,5 +78,10 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
+        // Applied LAST, so it renames whatever the configurations produced.
+        // Tables are already named explicitly; this covers columns, keys,
+        // foreign keys and indexes.
+        modelBuilder.UseSnakeCaseNames();
     }
 }

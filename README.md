@@ -21,10 +21,10 @@ truth for what is where:
 | 06 · Cloud Native | ✅ | ✅ | **Ready** — 18 tests |
 | 07 · Architecture Patterns | ✅ | ✅ | **Ready** — 24 tests |
 | 08 · Advanced Topics | ✅ | ✅ | **Ready** — 32 tests |
-| 09 · Enterprise CRUD | ✅ | ✅ | **Ready** — 43 tests |
+| 09 · Enterprise CRUD | ✅ | ✅ | **Ready** — 62 tests |
 
-**All nine modules are complete.** `dotnet build netLearn.sln` builds 52
-projects; `dotnet test netLearn.sln` runs **288 tests**, all passing.
+**All nine modules are complete.** `dotnet build netLearn.sln` builds 53
+projects; `dotnet test netLearn.sln` runs **303 tests**, all passing.
 
 Everything runs with no external services. Module 09 additionally offers
 PostgreSQL via .NET Aspire and Keycloak via Docker Compose, both optional.

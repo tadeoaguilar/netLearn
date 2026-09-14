@@ -206,6 +206,20 @@ never learns SQLite has opinions.
 **Audit fields are stamped in `SaveChangesAsync`,** not by handlers. Relying on
 each handler to remember is how half your rows end up with no `CreatedBy`.
 
+**The schema is snake_case.** PostgreSQL folds unquoted identifiers to lower
+case, so a column mapped as `OwnerId` can only ever be referenced as
+`"OwnerId"` — quoted, every time, in every report and migration you ever write.
+`SnakeCaseNaming.cs` applies the rename as a model-wide convention covering
+columns, keys, foreign keys and indexes, so a new entity is named consistently
+without anyone remembering to do it:
+
+```sql
+select name, owner_id, status, created_by from projects;   -- just works
+```
+
+`NamingTests.cs` pins the resulting names. The schema is part of your contract
+with anyone writing SQL against it, so a rename should be deliberate.
+
 **Deleting a task cancels it.** The row stays, so the audit trail survives.
 
 ---

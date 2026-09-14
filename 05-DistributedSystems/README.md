@@ -56,6 +56,49 @@ Learn to build resilient, scalable distributed applications. Master message brok
 3. Create projections from events
 4. Handle synchronization lag
 
+## Running This Module
+
+```bash
+dotnet run --project 05-DistributedSystems/MessageQueues -- all
+dotnet run --project 05-DistributedSystems/EventDriven   -- all
+dotnet run --project 05-DistributedSystems/CQRS          -- all
+dotnet test 05-DistributedSystems/tests/DistributedSystems.Tests   # 17 tests
+```
+
+Everything runs **offline**. There is no RabbitMQ, no Docker and no broker to
+install: the queue and the event bus are in-process implementations with the
+semantics that actually matter — acknowledgement, redelivery, a delivery limit
+and a dead-letter queue.
+
+That is deliberate. At-least-once delivery, duplicate handling and poison
+messages are properties of the *protocol*, not of any particular server. You
+can see the whole mechanism in `MessageQueues/Broker/InMemoryBroker.cs`, and
+the tests run in 97ms. Pointing this at a real broker is the last exercise.
+
+## Queue or Event Bus?
+
+The most common mistake in this module is picking the wrong one:
+
+| | Message queue | Event bus |
+|---|---|---|
+| Delivery | each message to **one** consumer | each event to **every** subscriber |
+| Coupling | sender knows the queue | publisher knows nobody |
+| Adding a consumer | shares existing load | receives everything |
+| Use for | work to be done once | facts others may care about |
+
+Both are demonstrated, and `DistributedSystems.Tests` asserts the difference.
+
+## The Three Things That Bite
+
+1. **At-least-once means duplicates.** Not might — will. A retry after a
+   timeout that actually succeeded, a failover, a crash between doing the work
+   and acknowledging it. The fix is an idempotent consumer, not a better broker.
+2. **A poison message blocks the queue** unless something gives up on it. That
+   is what the delivery limit and dead-letter queue are for.
+3. **Eventual consistency has a window.** Part 4 of `EventDriven` reads state
+   mid-flow and shows the system briefly inconsistent, then correct. Designs
+   that cannot tolerate that window need a transaction, not an event.
+
 ## Key Concepts
 
 ### Distributed System Challenges

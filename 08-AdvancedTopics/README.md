@@ -58,6 +58,66 @@ Master advanced architectural concepts that separate good architects from great 
 4. Build fallback mechanism
 5. Monitor resilience metrics
 
+## Running This Module
+
+```bash
+dotnet run --project 08-AdvancedTopics/DomainDrivenDesign -- all
+dotnet run --project 08-AdvancedTopics/EventSourcing      -- all
+dotnet run --project 08-AdvancedTopics/Resilience         -- all
+dotnet test 08-AdvancedTopics/tests/AdvancedTopics.Tests       # 32 tests
+```
+
+## What Each Demo Shows
+
+**DomainDrivenDesign** — value objects, an aggregate root enforcing an invariant
+across its whole collection, domain events, specifications, a domain service,
+and two bounded contexts connected by an anti-corruption layer.
+
+The contexts matter most. `Ordering.Order` means a commercial agreement with
+prices and currency; `Shipping.Shipment` means a parcel with a weight and an
+address. Same concept, different models, deliberately not shared — forcing one
+class to serve both is how you get a sixty-property object where half the
+fields are null depending on who is looking.
+
+**EventSourcing** — the log is the truth and state is derived. That inversion
+buys three things the demo makes concrete: state at any past point (replay a
+prefix), optimistic concurrency that actually prevents a double-withdrawal, and
+projections that answer questions **nobody asked when the events were written**.
+
+That last one is the strongest argument for the pattern. Part 4 runs a
+compliance report over events recorded before the report existed. A system
+storing only current balances threw that information away at write time.
+
+Snapshots are shown as what they are: a cache of a fold. Delete every snapshot
+and the system still works, just more slowly — and a test asserts exactly that.
+
+**Resilience** — Polly retry, circuit breaker, timeout, fallback, and how they
+compose. Part 2 is the one worth reading twice: it shows retry *amplifying* load
+on a service that is already failing, four calls where there should have been
+one. That is what the circuit breaker exists to stop.
+
+## Ordering Matters in a Resilience Pipeline
+
+```
+Fallback   -> last resort if everything below fails
+Retry      -> repeats what is below it
+Circuit    -> counts failures across all retries
+Timeout    -> applies to EACH individual attempt
+```
+
+Putting the timeout *inside* retry gives each attempt its own budget. Putting it
+outside time-boxes all attempts together — a different policy, and usually not
+the one you meant. There is a test for the difference.
+
+## A Bug the Tests Caught
+
+`Money.Of(10.005m)` returned `10.00`, not `10.01`. .NET's `decimal.Round`
+defaults to `MidpointRounding.ToEven` — banker's rounding — and at invoice
+volume that difference is real money.
+
+`Money.Of` now states its `MidpointRounding` explicitly. Whichever rule your
+domain uses, never leave it to the default.
+
 ## Domain-Driven Design
 
 ### Strategic Design

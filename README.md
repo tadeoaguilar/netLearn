@@ -17,10 +17,10 @@ to work through yet — this table is the source of truth for what actually runs
 | 02 · Channels | ✅ | ✅ | **Ready** — 18 tests |
 | 03 · Clean Architecture | ✅ | ✅ | **Ready** — 41 tests |
 | 04 · Vertical Slice | ✅ | ✅ | **Ready** — 23 tests |
-| 05 · Distributed Systems | Outline | ⬜ | Module README only |
-| 06 · Cloud Native | Outline | ⬜ | Module README only |
-| 07 · Architecture Patterns | Outline | ⬜ | Module README only |
-| 08 · Advanced Topics | Outline | ⬜ | Module README only |
+| 05 · Distributed Systems | ✅ | ✅ | **Ready** — 17 tests |
+| 06 · Cloud Native | ✅ | ✅ | **Ready** — 18 tests |
+| 07 · Architecture Patterns | ✅ | ✅ | **Ready** — 24 tests |
+| 08 · Advanced Topics | ✅ | ✅ | **Ready** — 32 tests |
 | 09 · Enterprise CRUD | ✅ | ⬜ | Full guide written, no project yet |
 
 Modules are completed depth-first: a module gets its code, exercises, reference

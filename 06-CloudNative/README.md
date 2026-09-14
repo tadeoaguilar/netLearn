@@ -56,6 +56,66 @@ Learn to design and build applications optimized for cloud environments. Master 
 3. Use Azure App Configuration
 4. Handle configuration updates dynamically
 
+## Running This Module
+
+```bash
+dotnet run  --project 06-CloudNative/HealthChecks           # probes on :5000
+dotnet run  --project 06-CloudNative/Configuration          # config precedence
+dotnet run  --project 06-CloudNative/Microservices          # composing gateway
+dotnet test 06-CloudNative/tests/CloudNative.Tests          # 18 tests
+```
+
+No Docker or Kubernetes required. The behaviour an orchestrator depends on is
+what matters here, and it is all observable locally.
+
+## The Three Probes Answer Three Questions
+
+Conflating them causes outages, so each endpoint is deliberately different:
+
+| Probe | Question | Checks dependencies? | On failure |
+|---|---|---|---|
+| `/health/live` | Is the process wedged? | **No** | container restarted |
+| `/health/ready` | Should traffic come here? | Yes | removed from load balancer |
+| `/health/startup` | Has init finished? | startup only | keeps waiting |
+
+**Liveness must not check the database.** If it does, a database outage makes
+Kubernetes restart every healthy pod — which fixes nothing and loses all
+in-flight work.
+
+**A cache outage is `Degraded`, not `Unhealthy`.** Degraded still returns 200,
+so the instance stays in rotation serving slower responses. Mark it Unhealthy
+and a slowdown becomes a full outage. Try it:
+
+```bash
+curl -X POST localhost:5000/toggle/cache      # -> Degraded, still HTTP 200
+curl -X POST localhost:5000/toggle/database   # -> Unhealthy, HTTP 503
+```
+
+## Configuration Precedence
+
+The same build runs everywhere; only the environment differs:
+
+```
+appsettings.json  <  appsettings.{Environment}.json  <  env vars  <  command line
+```
+
+The demo prints which provider each value came from. Note that environment
+variables use `__` rather than `:` (`Database__Host`), because `:` is not legal
+in an environment variable name — that is how secrets reach a container, and
+why they never belong in a committed appsettings file.
+
+Settings are validated with `ValidateOnStart()`, so a bad value stops the
+process at boot rather than surfacing as a `NullReferenceException` at 3am.
+
+## Graceful Degradation
+
+`Microservices` composes a catalogue service and an inventory service. Inventory
+is a **soft** dependency: when it fails, the product page still renders with
+prices and "stock unavailable" rather than returning 500.
+
+A microservice architecture where every dependency is hard is a distributed
+monolith with worse latency.
+
 ## Key Concepts
 
 ### The 12-Factor App

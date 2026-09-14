@@ -68,6 +68,44 @@ Master essential architecture patterns used in enterprise applications. Learn wh
 3. Ensure exactly-once delivery
 4. Build inbox for consumers
 
+## Running This Module
+
+```bash
+dotnet run --project 07-ArchitecturePatterns/CQRS-MediatR          -- all
+dotnet run --project 07-ArchitecturePatterns/Repository-UnitOfWork -- all
+dotnet run --project 07-ArchitecturePatterns/Saga                  -- all
+dotnet run --project 07-ArchitecturePatterns/Outbox                -- all
+dotnet test 07-ArchitecturePatterns/tests/ArchitecturePatterns.Tests   # 24 tests
+```
+
+## What Each Demo Actually Shows
+
+**Saga** — runs three steps and, when one fails, compensates the completed ones
+*in reverse order*. The demo prints the customer being charged and then
+refunded, because that is the honest outcome: a saga buys consistency, not
+invisibility. There is no distributed transaction to roll back, only a
+compensating action that leaves a trace.
+
+**Outbox** — starts by *demonstrating the bug*. Part 1 saves an order, crashes
+before publishing, and shows the order existing with nobody downstream ever
+hearing about it. No retry can fix that, because the code that would have
+retried is gone. Then the fix: write the message in the same transaction as the
+data, and let a relay publish it afterwards.
+
+Part 5 is the part people skip — the relay publishes *then* marks, so a crash
+in between causes a **duplicate**, not a loss. The outbox guarantees
+at-least-once. Exactly-once is achieved at the consumer, by deduplicating on
+message id (see [05-DistributedSystems](../05-DistributedSystems/)).
+
+**Repository / Unit of Work** — includes the counter-argument. `DbSet<T>` is
+already a repository and `DbContext` is already a unit of work; wrapping them
+one-to-one adds a layer and no ability. Part 3 shows where a *generic*
+repository genuinely breaks: `ListAsync()` then summing in C# loads 2,000 rows
+to compute a number SQL could have returned as one value.
+
+**CQRS-MediatR** — one validation behaviour and one logging behaviour applied to
+every request, with no handler aware of either.
+
 ## Pattern Details
 
 ### 1. CQRS Pattern

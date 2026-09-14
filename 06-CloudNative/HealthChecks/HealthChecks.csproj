@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <RootNamespace>CloudNative.HealthChecks</RootNamespace>
+    <AssemblyName>CloudNative.HealthChecks</AssemblyName>
+  </PropertyGroup>
+</Project>

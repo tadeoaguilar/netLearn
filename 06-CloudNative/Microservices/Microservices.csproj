@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <RootNamespace>CloudNative.Microservices</RootNamespace>
+    <AssemblyName>CloudNative.Microservices</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Polly" />
+    <PackageReference Include="Polly.Core" />
+  </ItemGroup>
+</Project>

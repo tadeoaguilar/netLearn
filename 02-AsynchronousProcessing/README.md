@@ -55,6 +55,51 @@ Master asynchronous programming in .NET to build high-performance, scalable appl
 3. Create a work queue system
 4. Handle backpressure scenarios
 
+## Running This Module
+
+```bash
+# From the repository root
+dotnet build netLearn.sln          # all projects in the module
+dotnet test netLearn.sln           # all 55 tests in the module
+```
+
+Each project holds a workspace where you write code, a `solution/` folder with a
+reference implementation, and `tests/` proving the behaviour. Work the exercise
+first, then compare.
+
+| Project | Run the reference | Tests |
+|---|---|---|
+| AsyncAwait | `dotnet run --project 02-AsynchronousProcessing/AsyncAwait/solution -- all` | 19 |
+| TaskParallelLibrary | `dotnet run -c Release --project 02-AsynchronousProcessing/TaskParallelLibrary/solution -- all` | 18 |
+| Channels | `dotnet run --project 02-AsynchronousProcessing/Channels/solution -- all` | 18 |
+
+Use `-c Release` for TaskParallelLibrary — every timing figure in it is
+meaningless in a Debug build.
+
+## Async or Parallel?
+
+The decision that matters most in this module, and the one people get backwards:
+
+| Workload | Use | Why |
+|---|---|---|
+| HTTP calls, file I/O, database queries | `async`/`await` | The thread is released during the wait |
+| Image processing, data transformation, maths | `Parallel` / PLINQ | More cores genuinely finish sooner |
+| A fast producer and a slow consumer | `Channel<T>` | Backpressure instead of unbounded buffering |
+
+## Corrections to the Exercises
+
+Three errors in the exercise text are fixed in the reference solutions and
+documented in each project's `GETTING_STARTED.md`:
+
+- **AsyncAwait Part 5** — `LibraryMethodExample` is declared `async Task` but
+  returns a value; it needs to be `async Task<string>`.
+- **TaskParallelLibrary Part 1** — speedup is computed as `elapsed / elapsed`,
+  which is always `1.00x`; and `Console.Write` inside the parallel loop
+  re-serializes the very loop being measured.
+- **Channels Part 5** — the consumer catches `ChannelClosedException`, which
+  never fires. `ReadAllAsync` rethrows the original exception passed to
+  `Complete(ex)`.
+
 ## Key Concepts
 
 ### Async/Await Pattern

@@ -4,8 +4,8 @@ A comprehensive, hands-on learning repository designed to master .NET architectu
 
 ## Current Status
 
-This repository is being built out module by module. Not every module is ready
-to work through yet — this table is the source of truth for what actually runs:
+Every module builds, runs and is covered by tests. This table is the source of
+truth for what is where:
 
 | Module | Written material | Runnable code | Status |
 |---|---|---|---|
@@ -21,10 +21,13 @@ to work through yet — this table is the source of truth for what actually runs
 | 06 · Cloud Native | ✅ | ✅ | **Ready** — 18 tests |
 | 07 · Architecture Patterns | ✅ | ✅ | **Ready** — 24 tests |
 | 08 · Advanced Topics | ✅ | ✅ | **Ready** — 32 tests |
-| 09 · Enterprise CRUD | ✅ | ⬜ | Full guide written, no project yet |
+| 09 · Enterprise CRUD | ✅ | ✅ | **Ready** — 43 tests |
 
-Modules are completed depth-first: a module gets its code, exercises, reference
-solution, and tests all together before the next one starts.
+**All nine modules are complete.** `dotnet build netLearn.sln` builds 52
+projects; `dotnet test netLearn.sln` runs **288 tests**, all passing.
+
+Everything runs with no external services. Module 09 additionally offers
+PostgreSQL via .NET Aspire and Keycloak via Docker Compose, both optional.
 
 ## Learning Path Overview
 
@@ -152,11 +155,12 @@ This repository is organized into 9 progressive modules, each focusing on critic
 git clone <your-repo-url>
 cd netLearn
 
-# Each project can be run independently
-cd 01-DependencyInjection/BasicDI
-dotnet restore
-dotnet build
-dotnet run
+# Build and test everything
+dotnet build netLearn.sln
+dotnet test netLearn.sln          # 288 tests
+
+# Or start with the first module
+dotnet run --project 01-DependencyInjection/BasicDI/BasicDI
 ```
 
 ## Learning Approach

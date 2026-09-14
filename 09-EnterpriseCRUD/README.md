@@ -33,6 +33,39 @@ A **Task Management API** with the following features:
 - Distributed tracing
 - API versioning
 
+## Status: Built and Running
+
+This module is **complete**. The API in `src/` builds, runs and is covered by
+43 tests. Start here:
+
+```bash
+cd 09-EnterpriseCRUD
+dotnet run --project src/TaskManagement.WebApi     # SQLite, no setup needed
+dotnet test tests/TaskManagement.Tests
+```
+
+See [GETTING_STARTED.md](GETTING_STARTED.md) for a walkthrough, the API
+reference, and the three ways to run it (SQLite / Aspire+PostgreSQL /
+Compose+Keycloak).
+
+## Deviations from the Original Plan
+
+Two, both deliberate and both reversible:
+
+**The default run uses SQLite, not PostgreSQL.** The same build runs on either —
+`Database:Provider` decides. PostgreSQL is one command away
+(`dotnet run --project src/TaskManagement.AppHost`, which starts it in a
+container via Aspire), but the API had to be runnable with nothing installed,
+like every other module in this repository.
+
+**Development issues its own JWTs instead of requiring Keycloak.**
+`POST /dev/token` is registered only when the environment is Development, and
+production validates against a real OIDC authority over HTTPS. A
+`docker-compose.yml` with Keycloak is included for the full flow.
+
+Both choices follow the same rule: the API must run with zero setup, and scale
+up to the real thing by configuration alone.
+
 ## Technology Stack
 
 ### Core Framework

@@ -1,0 +1,42 @@
+# The production-shaped stack: PostgreSQL plus Keycloak as a real OIDC provider.
+#
+#   docker compose up -d
+#   dotnet run --project src/TaskManagement.WebApi
+#
+# You do NOT need this to run the API. By default it uses SQLite and issues its
+# own development tokens -- see GETTING_STARTED.md. This is here for when you
+# want to see the real thing.
+#
+# The Aspire AppHost is a third option: it starts PostgreSQL for you and adds a
+# dashboard with logs, traces and metrics.
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: taskmanagement-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: taskmanagement
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    container_name: taskmanagement-keycloak
+    command: start-dev
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres-data:

@@ -1,9 +1,219 @@
-# Getting Started with Enterprise CRUD API
+# Getting Started: Enterprise Task Management API
 
-This comprehensive guide will walk you through building a production-ready Task Management API using Clean Architecture, CQRS, OAuth2/OpenID Connect, .NET Aspire, and PostgreSQL.
+## The Short Version
 
-**Estimated Time**: 6-8 hours
-**Difficulty**: Advanced
+The API is **already built** in `src/`. It runs with no setup at all:
+
+```bash
+cd 09-EnterpriseCRUD
+dotnet run --project src/TaskManagement.WebApi
+```
+
+Then open <http://localhost:5000/swagger>, or:
+
+```bash
+# Get a development token
+TOKEN=$(curl -s -X POST "http://localhost:5000/dev/token?userId=alice&roles=user" \
+  | python3 -c 'import sys,json;print(json.load(sys.stdin)["access_token"])')
+
+# Create a project
+curl -X POST http://localhost:5000/api/v1/projects \
+  -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application/json' \
+  -d '{"name":"Apollo","description":"moon shot"}'
+```
+
+```bash
+dotnet test tests/TaskManagement.Tests     # 43 tests
+```
+
+## Three Ways to Run It
+
+The same build runs in all three. Only configuration differs — the 12-factor
+rule from [module 06](../06-CloudNative/).
+
+| | Command | Database | Identity | Needs |
+|---|---|---|---|---|
+| **Default** | `dotnet run --project src/TaskManagement.WebApi` | SQLite file | built-in dev tokens | nothing |
+| **Aspire** | `dotnet run --project src/TaskManagement.AppHost` | PostgreSQL container | built-in dev tokens | Docker |
+| **Compose** | `docker compose up -d` then run the API | PostgreSQL container | Keycloak | Docker |
+
+### Aspire
+
+```bash
+dotnet run --project src/TaskManagement.AppHost
+```
+
+Starts PostgreSQL and pgAdmin in containers, injects the connection string into
+the API, and opens a dashboard at <http://localhost:15000> with logs, traces and
+metrics across every resource.
+
+Aspire is **orchestration, not a dependency**. The API neither knows nor cares
+whether it was started by Aspire — it reads `ConnectionStrings:Default` and
+`Database:Provider` like any other configuration. That line is worth keeping
+clear in your own systems too.
+
+### Docker Compose with Keycloak
+
+```bash
+docker compose up -d
+```
+
+Then configure a realm in Keycloak (<http://localhost:8080>, admin/admin) and
+point the API at it:
+
+```bash
+Jwt__Authority=https://your-keycloak/realms/taskmanagement \
+ASPNETCORE_ENVIRONMENT=Production \
+dotnet run --project src/TaskManagement.WebApi
+```
+
+**The authority must be HTTPS outside Development.** `JwtBearer` refuses a
+plaintext authority by default, and it is right to: the authority is where
+signing keys come from, so anyone on the network path could substitute their own
+and mint valid tokens. `Program.cs` sets `RequireHttpsMetadata` to false **only**
+in Development, so the override cannot ship.
+
+## Authentication
+
+Development mode issues its own HS256 tokens via `POST /dev/token`, so the API
+is usable without standing up an identity provider first. That endpoint is
+registered **only** when `ASPNETCORE_ENVIRONMENT=Development` — there is no way
+to reach it in any other environment.
+
+Production validates asymmetrically-signed tokens against a real provider's
+published JWKS, and the application holds no signing secret at all.
+
+Two roles are demonstrated:
+
+| Role | May do |
+|---|---|
+| `user` | everything on projects they own |
+| `admin` | everything on any project |
+
+```bash
+curl -s -X POST "http://localhost:5000/dev/token?userId=carol&roles=admin"
+```
+
+Ownership comes from the token's `sub` claim, **never** from the request body.
+Taking it from the body would let any caller create projects owned by anyone —
+`ApplicationTests` has a test for exactly that.
+
+## What Is Built
+
+```
+09-EnterpriseCRUD/
+├── docker-compose.yml                  # PostgreSQL + Keycloak (optional)
+├── src/
+│   ├── TaskManagement.Domain/          # entities, value objects, events. NO dependencies.
+│   ├── TaskManagement.Application/     # CQRS handlers, ports, pipeline behaviours
+│   ├── TaskManagement.Infrastructure/  # EF Core, SQLite AND PostgreSQL
+│   ├── TaskManagement.WebApi/          # endpoints, JWT, problem details, health
+│   └── TaskManagement.AppHost/         # .NET Aspire orchestration
+└── tests/TaskManagement.Tests/         # 43 tests: domain, application, integration, architecture
+```
+
+Every module in this repository shows up here:
+
+| From | Used for |
+|---|---|
+| [01 DI](../01-DependencyInjection/) | constructor injection, lifetimes, the options pattern |
+| [02 Async](../02-AsynchronousProcessing/) | async all the way, `CancellationToken` through every layer |
+| [03 Clean Architecture](../03-CleanArchitecture/) | the four layers and the dependency rule |
+| [04 Vertical Slice](../04-VerticalSliceArchitecture/) | one folder per feature inside Application |
+| [06 Cloud Native](../06-CloudNative/) | health probes, layered configuration |
+| [07 Patterns](../07-ArchitecturePatterns/) | CQRS with MediatR, pipeline behaviours |
+| [08 Advanced](../08-AdvancedTopics/) | aggregates, value objects, domain events |
+
+## The Tests Are the Specification
+
+| File | Proves | Needs |
+|---|---|---|
+| `DomainTests.cs` | business rules and state transitions | nothing |
+| `ApplicationTests.cs` | handlers, authorization, paging, audit | SQLite in memory |
+| `IntegrationTests.cs` | real HTTP, real JWT validation, real SQL | the whole host |
+| `ArchitectureTests.cs` | the dependency rule itself | reflection |
+
+`ArchitectureTests` fails the build if `Domain` ever references a framework or
+`Application` ever references `Infrastructure`. An architecture written down
+only in a README is a convention until the first deadline.
+
+## API Reference
+
+All endpoints are under `/api/v1` and require a bearer token.
+
+| Method | Route | Notes |
+|---|---|---|
+| POST | `/api/v1/projects` | owner taken from the token |
+| GET | `/api/v1/projects` | `?status=&ownerId=&page=&pageSize=` |
+| GET | `/api/v1/projects/{id}` | |
+| PUT | `/api/v1/projects/{id}` | owner or admin only |
+| POST | `/api/v1/projects/{id}/archive` | 409 if tasks are open |
+| DELETE | `/api/v1/projects/{id}` | 409 if tasks are open |
+| POST | `/api/v1/projects/{id}/tasks` | |
+| GET | `/api/v1/tasks` | `?projectId=&state=&minimumPriority=&assigneeId=&overdueOnly=` |
+| GET | `/api/v1/tasks/{id}` | |
+| PUT | `/api/v1/tasks/{id}` | |
+| POST | `/api/v1/tasks/{id}/assign` | |
+| POST | `/api/v1/tasks/{id}/move` | enforces the transition table |
+| DELETE | `/api/v1/tasks/{id}` | cancels, preserving the audit trail |
+
+Plus `/health/live`, `/health/ready`, `/swagger` and `/dev/token`
+(Development only).
+
+### Status Codes Mean Something
+
+| Code | When |
+|---|---|
+| 400 | input failed validation — the response lists the fields |
+| 401 | no token, or a token that failed signature validation |
+| 403 | authenticated, but not allowed to touch this resource |
+| 404 | no such project or task |
+| 409 | a business rule refused it — the request was well formed |
+
+A broken business rule is a **409, not a 500**. The request was fine; the
+system simply refuses it. Returning 500 there tells your monitoring you have a
+bug when you do not.
+
+## The Task State Machine
+
+```
+Todo ──────► InProgress ──────► InReview ──────► Done
+  │              │                   │
+  │              ▼                   ▼
+  └──────────► Cancelled ◄───────────┘
+```
+
+Legal moves live in one table on `TaskItem`, not scattered across handlers, so
+every caller gets them. `Todo → Done` is refused with a 409. A task must be
+assigned before it can be completed. `Done` and `Cancelled` are terminal.
+
+## Notes on the Implementation
+
+**Identity is client-generated.** Entities assign their own `Guid`, so EF is
+told `ValueGeneratedNever()`. Without it EF assumes a set key means an existing
+row and issues an `UPDATE` matching nothing — a `DbUpdateConcurrencyException`
+on the very first insert.
+
+**`Priority` is stored as its ordinal, `State` as text.** Priority is *ordered*
+(`order by priority desc`, `minimumPriority` filters), and text sorts
+lexicographically — `High` would land below `Low`. State is only compared for
+equality, so readable rows win. There is a regression test with all four values.
+
+**`DateTimeOffset` is stored as UTC ticks.** SQLite cannot `ORDER BY` one. The
+workaround lives in Infrastructure; the domain still uses `DateTimeOffset` and
+never learns SQLite has opinions.
+
+**Audit fields are stamped in `SaveChangesAsync`,** not by handlers. Relying on
+each handler to remember is how half your rows end up with no `CreatedBy`.
+
+**Deleting a task cancels it.** The row stays, so the audit trail survives.
+
+---
+
+## Building It Yourself
+
+Everything below is the original step-by-step guide, kept intact. Work through
+it to build the API from an empty folder, and compare against `src/` as you go.
 
 ---
 

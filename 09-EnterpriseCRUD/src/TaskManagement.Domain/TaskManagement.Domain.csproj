@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    No references. The dependency rule from module 03 applies here too, and
+    ArchitectureTests enforces it.
+  -->
+</Project>

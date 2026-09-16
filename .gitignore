@@ -60,6 +60,12 @@ appsettings.*.Local.json
 .env.local
 *.pfx
 
+## Azure Functions (module 12)
+# Holds AzureWebJobsStorage and other local-only values; committing it is
+# the classic way to leak a storage connection string. Module 12 ships
+# local.settings.json.example instead -- copy it and fill in your own.
+local.settings.json
+
 ## OS noise
 .DS_Store
 Thumbs.db

@@ -24,9 +24,10 @@ truth for what is where:
 | 09 · Enterprise CRUD | ✅ | ✅ | **Ready** — 62 tests |
 | 10 · EF Core & PostgreSQL | ✅ | ✅ | **Ready** — 145 tests |
 | 11 · NoSQL & Cosmos DB | ✅ | ✅ | **Ready** — 89 tests |
+| 12 · Serverless Azure Functions | ✅ | ✅ | **Ready** — 10 tests |
 
-**All eleven modules are complete.** `dotnet build netLearn.sln` builds 88
-projects; `dotnet test netLearn.sln` runs **541 tests**.
+**All twelve modules are complete.** `dotnet build netLearn.sln` builds 91
+projects; `dotnet test netLearn.sln` runs **551 tests**.
 
 Everything through module 09 runs with no external services (module 09
 additionally offers PostgreSQL via .NET Aspire and Keycloak via Docker
@@ -40,11 +41,15 @@ the reference projects; its tests spin up their own throwaway Postgres via
 Testcontainers), and module 11 is Cosmos DB-only, orchestrated with .NET
 Aspire instead — each project's own `AppHost` starts the Cosmos DB emulator
 (a heavier container than Postgres, with a multi-minute cold start), and its
-Aspire-based integration tests do the same.
+Aspire-based integration tests do the same. Module 12 needs no Docker at
+all: its C# work (an Entra ID-secured Azure Function, no database) builds
+and its 10 tests run and pass with nothing but the .NET SDK — only its
+Bicep/deployment section (Part 4) touches Azure, and that's the user's own
+subscription to run, same opt-in policy as modules 06/10/11.
 
 ## Learning Path Overview
 
-This repository is organized into 11 progressive modules, each focusing on critical architectural concepts:
+This repository is organized into 12 progressive modules, each focusing on critical architectural concepts:
 
 ### 1. Dependency Injection (01-DependencyInjection/)
 **Goal**: Master IoC containers and DI patterns in .NET
@@ -183,6 +188,18 @@ This repository is organized into 11 progressive modules, each focusing on criti
 
 ---
 
+### 12. Serverless Azure Functions (12-AzureFunctionsServerless/)
+**Goal**: Secure a serverless API with real Entra ID authentication and automate its infrastructure with Bicep — no database, so the request pipeline itself stays the focus
+
+- **Part 1 — Build the Function API**: isolated-worker fundamentals, why a Storage Account is required even with no application data, `AuthorizationLevel.Anonymous` vs. real authentication
+- **Part 2 — Secure it with Entra ID**: a hand-rolled `IFunctionsWorkerMiddleware` that validates bearer tokens (issuer, audience, signature, lifetime, app role) directly, two App Registrations, and the client-credentials flow
+- **Part 3 — Managed Identity + Key Vault**: reading a secret with no key or connection string anywhere in configuration, and RBAC as the permission half of that story
+- **Part 4 — Infrastructure as Code with Bicep**: `main.bicep` and its modules, why an Entra ID App Registration needs a `deploymentScript` instead of a native Bicep resource, and deploying/tearing down for real
+
+**Key Skills**: Serverless request handling, hand-validating OAuth2/OIDC bearer tokens instead of trusting a framework to hide it, Managed Identity vs. RBAC, and Bicep as more than a YAML-for-ARM exercise — most of this module's logic (the token validator, the notes store) is unit-tested with zero Azure dependency, a first for the repo's Azure-touching modules
+
+---
+
 ## Getting Started
 
 ### Prerequisites
@@ -199,7 +216,7 @@ cd netLearn
 
 # Build and test everything
 dotnet build netLearn.sln
-dotnet test netLearn.sln          # 537 tests (modules 10-11 need Docker)
+dotnet test netLearn.sln          # 551 tests (modules 10-11 need Docker; module 12's need nothing)
 
 # Or start with the first module
 dotnet run --project 01-DependencyInjection/BasicDI/BasicDI
@@ -238,7 +255,8 @@ netLearn/
 ├── 08-AdvancedTopics/          # DDD, Event Sourcing, Resilience
 ├── 09-EnterpriseCRUD/          # Complete enterprise CRUD API
 ├── 10-EntityFrameworkCore/     # EF Core against PostgreSQL
-└── 11-NoSqlCosmosDb/           # Cosmos DB with .NET Aspire
+├── 11-NoSqlCosmosDb/           # Cosmos DB with .NET Aspire
+└── 12-AzureFunctionsServerless/ # Serverless Functions, Entra ID, Bicep
 ```
 
 ### Anatomy of a Project
@@ -380,6 +398,11 @@ Use this checklist to track your progress:
   - [ ] CosmosIndexingAndThroughput
   - [ ] CosmosChangeFeed
   - [ ] CosmosConsistencyAndTransactions
+- [ ] 12-AzureFunctionsServerless
+  - [ ] Part 1 - Build the Function API
+  - [ ] Part 2 - Secure it with Entra ID
+  - [ ] Part 3 - Managed Identity + Key Vault
+  - [ ] Part 4 - Infrastructure as Code with Bicep
 
 ## Contributing to Your Learning
 

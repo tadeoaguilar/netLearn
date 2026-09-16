@@ -71,8 +71,30 @@
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 
-  <ItemGroup Label="Aspire testing (module 11)">
+  <ItemGroup Label="Aspire testing (modules 11, 06)">
     <PackageVersion Include="Aspire.Hosting.Testing" Version="9.5.2" />
+  </ItemGroup>
+
+  <ItemGroup Label="Aspire full-feature tour (module 06)">
+    <!--
+      The Aspire hosting packages used by AppHost/AppHost.csproj
+      (Aspire.Hosting.AppHost, Aspire.Hosting.PostgreSQL, Aspire.Hosting.Redis,
+      Aspire.Hosting.Azure.AppContainers) are NOT listed here, same reasoning
+      as module 11's AppHost: that project turns central package management
+      off and pins explicit versions itself, because the Aspire SDK injects
+      its own build-time package references.
+    -->
+    <!-- Client integrations (CatalogApi): auto-wire health checks + OpenTelemetry. -->
+    <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.5.2" />
+    <PackageVersion Include="Aspire.StackExchange.Redis.OutputCaching" Version="9.5.2" />
+    <!-- ServiceDefaults: the standard Aspire shared-project template packages. -->
+    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.10.0" />
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.10.0" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.18.0" />
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.18.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.18.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.18.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.18.0" />
   </ItemGroup>
 
   <ItemGroup Label="Testing">

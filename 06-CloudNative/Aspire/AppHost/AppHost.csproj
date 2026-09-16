@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="Aspire.AppHost.Sdk" Version="9.5.2" />
+
+  <!--
+    Central package management is turned OFF for this one project. The
+    Aspire SDK injects its own package references at build time, which
+    cannot be declared in Directory.Packages.props. See solution/AppHost/AppHost.csproj
+    for the fully worked reference.
+  -->
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsAspireHost>true</IsAspireHost>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    <UserSecretsId>cloudnative-aspire-apphost-workspace</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.5.2" />
+    <!-- TODO Part A.3: add Aspire.Hosting.PostgreSQL and Aspire.Hosting.Redis -->
+    <!-- TODO Part B.1: add Aspire.Hosting.Azure.AppContainers -->
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../CatalogApi/CatalogApi.csproj" IsAspireProjectResource="true" />
+    <ProjectReference Include="../Storefront/Storefront.csproj" IsAspireProjectResource="true" />
+  </ItemGroup>
+
+</Project>

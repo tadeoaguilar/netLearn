@@ -56,16 +56,42 @@ Learn to design and build applications optimized for cloud environments. Master 
 3. Use Azure App Configuration
 4. Handle configuration updates dynamically
 
+### Aspire
+**What you'll learn:**
+- The full .NET Aspire feature set: AppHost orchestration, ServiceDefaults,
+  container resources, client integrations, service discovery, parameters,
+  replicas, the dashboard, and testing with `Aspire.Hosting.Testing`
+- Deploying an Aspire app to Azure with `azd` -- what gets provisioned,
+  reviewing Bicep before spending anything, and tearing it down cleanly
+
+**Exercises:** a two-part guided build (`06-CloudNative/Aspire/EXERCISE.md`):
+1. **Part A -- locally**: build a small CatalogApi + Storefront app
+   orchestrated by Aspire, backed by Postgres and Redis, using service
+   discovery instead of hardcoded ports, and write Aspire-based integration
+   tests
+2. **Part B -- Azure**: deploy the same app with `azd`, understand exactly
+   what Azure resources get created, and clean up completely
+
+This project follows the fuller `README.md`/`EXERCISE.md`/`GETTING_STARTED.md`
++ workspace/`solution/`/`tests/` shape used in modules 01/10/11, unlike this
+module's other three lighter projects. **Part B needs your own Azure
+subscription and the `azd` CLI, and incurs real (small) cost if you follow
+it through to a live deployment** -- see its `GETTING_STARTED.md` for cost
+callouts before running `azd up`.
+
 ## Running This Module
 
 ```bash
-dotnet run  --project 06-CloudNative/HealthChecks           # probes on :5000
-dotnet run  --project 06-CloudNative/Configuration          # config precedence
-dotnet run  --project 06-CloudNative/Microservices          # composing gateway
-dotnet test 06-CloudNative/tests/CloudNative.Tests          # 18 tests
+dotnet run  --project 06-CloudNative/HealthChecks              # probes on :5000
+dotnet run  --project 06-CloudNative/Configuration             # config precedence
+dotnet run  --project 06-CloudNative/Microservices             # composing gateway
+dotnet run  --project 06-CloudNative/Aspire/solution/AppHost    # full orchestrated app (Docker required)
+dotnet test 06-CloudNative/tests/CloudNative.Tests              # 18 tests
+dotnet test 06-CloudNative/Aspire/tests                         # Aspire integration tests (Docker required)
 ```
 
-No Docker or Kubernetes required. The behaviour an orchestrator depends on is
+Microservices, HealthChecks and Configuration need no Docker or Kubernetes
+-- the behaviour an orchestrator depends on is
 what matters here, and it is all observable locally.
 
 ## The Three Probes Answer Three Questions
@@ -520,14 +546,17 @@ Build a distributed e-commerce system:
 ## Prerequisites
 - Modules 1-5 completed
 - Docker installed
-- Azure account (for cloud exercises)
+- Azure account and the `azd` CLI (only for Aspire Part B -- everything
+  else in this module, Aspire Part A included, is free and local)
 - Understanding of HTTP and REST
 
 ## Getting Started
 1. Install Docker Desktop
 2. Start with [Microservices](Microservices/)
 3. Progress to [HealthChecks](HealthChecks/)
-4. Complete with [Configuration](Configuration/)
+4. Continue with [Configuration](Configuration/)
+5. Finish with [Aspire](Aspire/) -- orchestrate all of it with .NET Aspire,
+   then deploy to Azure
 
 ## Next Module
 After completing this module, proceed to [07-ArchitecturePatterns](../07-ArchitecturePatterns/)

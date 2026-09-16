@@ -18,19 +18,23 @@ truth for what is where:
 | 03 · Clean Architecture | ✅ | ✅ | **Ready** — 41 tests |
 | 04 · Vertical Slice | ✅ | ✅ | **Ready** — 23 tests |
 | 05 · Distributed Systems | ✅ | ✅ | **Ready** — 17 tests |
-| 06 · Cloud Native | ✅ | ✅ | **Ready** — 18 tests |
+| 06 · Cloud Native | ✅ | ✅ | **Ready** — 22 tests |
 | 07 · Architecture Patterns | ✅ | ✅ | **Ready** — 24 tests |
 | 08 · Advanced Topics | ✅ | ✅ | **Ready** — 32 tests |
 | 09 · Enterprise CRUD | ✅ | ✅ | **Ready** — 62 tests |
 | 10 · EF Core & PostgreSQL | ✅ | ✅ | **Ready** — 145 tests |
 | 11 · NoSQL & Cosmos DB | ✅ | ✅ | **Ready** — 89 tests |
 
-**All eleven modules are complete.** `dotnet build netLearn.sln` builds 79
-projects; `dotnet test netLearn.sln` runs **537 tests**.
+**All eleven modules are complete.** `dotnet build netLearn.sln` builds 88
+projects; `dotnet test netLearn.sln` runs **541 tests**.
 
 Everything through module 09 runs with no external services (module 09
 additionally offers PostgreSQL via .NET Aspire and Keycloak via Docker
-Compose, both optional). Modules 10 and 11 both need Docker: module 10 is
+Compose, both optional). Module 06 adds one Docker-and-Azure-only project,
+`06-CloudNative/Aspire`, on top of that module's otherwise dependency-free
+other three — its Part A (local Aspire orchestration) needs Docker, its
+Part B (deploying to Azure with `azd`) needs a real Azure subscription and
+is entirely opt-in. Modules 10 and 11 both need Docker: module 10 is
 PostgreSQL-only (`docker compose up -d` from `10-EntityFrameworkCore/` for
 the reference projects; its tests spin up their own throwaway Postgres via
 Testcontainers), and module 11 is Cosmos DB-only, orchestrated with .NET
@@ -106,8 +110,11 @@ This repository is organized into 11 progressive modules, each focusing on criti
 - **Microservices**: Building and orchestrating microservices
 - **HealthChecks**: Implementing readiness and liveness probes
 - **Configuration**: External configuration, secrets management
+- **Aspire**: The full .NET Aspire feature tour (AppHost, ServiceDefaults,
+  service discovery, container resources, client integrations, the
+  dashboard, testing) and deploying the same app to Azure with `azd`
 
-**Key Skills**: 12-factor app principles, containerization, service discovery
+**Key Skills**: 12-factor app principles, containerization, service discovery, Aspire orchestration, Azure deployment
 
 ---
 
@@ -346,6 +353,7 @@ Use this checklist to track your progress:
   - [ ] Microservices
   - [ ] HealthChecks
   - [ ] Configuration
+  - [ ] Aspire
 - [ ] 07-ArchitecturePatterns
   - [ ] CQRS-MediatR
   - [ ] Repository-UnitOfWork

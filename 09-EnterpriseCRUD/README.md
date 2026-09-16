@@ -632,6 +632,9 @@ After completing this module:
 4. Implement microservices architecture
 5. Deploy to cloud (Azure/AWS)
 
+## Next Module
+Want to go deeper on the persistence layer specifically? [10-EntityFrameworkCore](../10-EntityFrameworkCore/) teaches EF Core against real PostgreSQL — modeling, migrations, querying, transactions, logging, and health checks.
+
 ## Feedback & Contributions
 
 This is a learning repository. Feel free to:

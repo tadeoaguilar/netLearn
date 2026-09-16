@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="Aspire.AppHost.Sdk" Version="9.5.2" />
+
+  <!--
+    Central package management is turned OFF for this one project, same as
+    09-EnterpriseCRUD/src/TaskManagement.AppHost. The Aspire SDK injects its
+    own package references at build time, which cannot be declared in
+    Directory.Packages.props.
+  -->
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsAspireHost>true</IsAspireHost>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    <UserSecretsId>cosmosquerying-apphost</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.5.2" />
+    <PackageReference Include="Aspire.Hosting.Azure.CosmosDB" Version="9.5.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../solution/CosmosQuerying.Solution.csproj"
+                      IsAspireProjectResource="true" />
+  </ItemGroup>
+
+</Project>

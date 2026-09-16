@@ -52,6 +52,29 @@
     <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="9.0.20" />
   </ItemGroup>
 
+  <ItemGroup Label="PostgreSQL testing (module 10)">
+    <PackageVersion Include="Testcontainers.PostgreSql" Version="4.15.0" />
+  </ItemGroup>
+
+  <ItemGroup Label="Azure Cosmos DB (module 11)">
+    <!--
+      The Aspire hosting package (Aspire.Hosting.Azure.CosmosDB) is NOT
+      listed here, like 09-EnterpriseCRUD's AppHost: that one project turns
+      central package management off and pins an explicit version itself,
+      because the Aspire SDK injects its own build-time package references.
+      Consuming projects use the plain Microsoft.Azure.Cosmos SDK below,
+      reading the connection string from configuration, the same pattern
+      module 09 uses for Npgsql, so no Aspire client package is needed here.
+    -->
+    <PackageVersion Include="Microsoft.Azure.Cosmos" Version="3.63.0" />
+    <!-- Microsoft.Azure.Cosmos requires this to be referenced explicitly. -->
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
+
+  <ItemGroup Label="Aspire testing (module 11)">
+    <PackageVersion Include="Aspire.Hosting.Testing" Version="9.5.2" />
+  </ItemGroup>
+
   <ItemGroup Label="Testing">
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageVersion Include="xunit" Version="2.9.2" />

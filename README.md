@@ -22,16 +22,25 @@ truth for what is where:
 | 07 · Architecture Patterns | ✅ | ✅ | **Ready** — 24 tests |
 | 08 · Advanced Topics | ✅ | ✅ | **Ready** — 32 tests |
 | 09 · Enterprise CRUD | ✅ | ✅ | **Ready** — 62 tests |
+| 10 · EF Core & PostgreSQL | ✅ | ✅ | **Ready** — 145 tests |
+| 11 · NoSQL & Cosmos DB | ✅ | ✅ | **Ready** — 89 tests |
 
-**All nine modules are complete.** `dotnet build netLearn.sln` builds 53
-projects; `dotnet test netLearn.sln` runs **303 tests**, all passing.
+**All eleven modules are complete.** `dotnet build netLearn.sln` builds 79
+projects; `dotnet test netLearn.sln` runs **537 tests**.
 
-Everything runs with no external services. Module 09 additionally offers
-PostgreSQL via .NET Aspire and Keycloak via Docker Compose, both optional.
+Everything through module 09 runs with no external services (module 09
+additionally offers PostgreSQL via .NET Aspire and Keycloak via Docker
+Compose, both optional). Modules 10 and 11 both need Docker: module 10 is
+PostgreSQL-only (`docker compose up -d` from `10-EntityFrameworkCore/` for
+the reference projects; its tests spin up their own throwaway Postgres via
+Testcontainers), and module 11 is Cosmos DB-only, orchestrated with .NET
+Aspire instead — each project's own `AppHost` starts the Cosmos DB emulator
+(a heavier container than Postgres, with a multi-minute cold start), and its
+Aspire-based integration tests do the same.
 
 ## Learning Path Overview
 
-This repository is organized into 9 progressive modules, each focusing on critical architectural concepts:
+This repository is organized into 11 progressive modules, each focusing on critical architectural concepts:
 
 ### 1. Dependency Injection (01-DependencyInjection/)
 **Goal**: Master IoC containers and DI patterns in .NET
@@ -141,12 +150,38 @@ This repository is organized into 9 progressive modules, each focusing on critic
 
 ---
 
+### 10. Entity Framework Core & PostgreSQL (10-EntityFrameworkCore/)
+**Goal**: Master EF Core against real PostgreSQL — modeling, migrations, querying, transactions, and operational concerns
+
+- **EfCoreModeling**: Fluent API, relationships, owned types, value converters, many-to-many with a payload, inheritance, constraints
+- **EfCoreMigrations**: Creating, hand-editing, seeding, applying, and rolling back migrations
+- **EfCoreQuerying**: LINQ filtering/projection/grouping, `Include` vs. projections, raw SQL, and Postgres-only querying (`ILIKE`, arrays, JSONB)
+- **EfCoreTransactions**: Explicit transactions, savepoints, optimistic concurrency via `xmin`, isolation levels
+- **EfCoreLoggingAndHealthChecks**: EF Core logging, interceptors, and readiness/liveness health checks
+
+**Key Skills**: Schema modeling and evolution, query performance, transactional correctness, production diagnostics — all PostgreSQL-specific, not simulated on SQLite
+
+---
+
+### 11. NoSQL with Azure Cosmos DB and .NET Aspire (11-NoSqlCosmosDb/)
+**Goal**: Master document modeling and operations on Cosmos DB, orchestrated with .NET Aspire, and understand where it deliberately diverges from module 10's relational approach
+
+- **CosmosModeling**: Partition key selection, embedding vs. referencing, schema evolution without migrations, synthetic partition keys
+- **CosmosQuerying**: The LINQ provider and the parameterized SQL API, cross-partition vs. single-partition queries, pagination, RU-aware projections
+- **CosmosIndexingAndThroughput**: Indexing policies, `RequestCharge`, manual vs. autoscale throughput, handling `429` responses
+- **CosmosChangeFeed**: The change feed processor, a materialized read model, at-least-once delivery and idempotency
+- **CosmosConsistencyAndTransactions**: The five consistency levels, ETag optimistic concurrency, `TransactionalBatch` within a single partition key
+
+**Key Skills**: Partition-key-driven data modeling, RU cost management, event-driven read models, and the specific ways NoSQL trades relational guarantees (foreign keys, cross-table transactions, query-plan optimization) for horizontal scale — each project pairs directly with a module 10 counterpart to make the contrast concrete
+
+---
+
 ## Getting Started
 
 ### Prerequisites
 - .NET 9.0 SDK (pinned in `global.json`; every project targets `net9.0`)
 - Visual Studio 2022 / Rider / VS Code
-- Docker (for distributed systems examples)
+- Docker (for distributed systems examples, and required for modules 10-11)
 - Basic understanding of C# and OOP principles
 
 ### Installation
@@ -157,7 +192,7 @@ cd netLearn
 
 # Build and test everything
 dotnet build netLearn.sln
-dotnet test netLearn.sln          # 288 tests
+dotnet test netLearn.sln          # 537 tests (modules 10-11 need Docker)
 
 # Or start with the first module
 dotnet run --project 01-DependencyInjection/BasicDI/BasicDI
@@ -194,7 +229,9 @@ netLearn/
 ├── 06-CloudNative/             # Cloud-native patterns
 ├── 07-ArchitecturePatterns/    # Common patterns
 ├── 08-AdvancedTopics/          # DDD, Event Sourcing, Resilience
-└── 09-EnterpriseCRUD/          # Complete enterprise CRUD API
+├── 09-EnterpriseCRUD/          # Complete enterprise CRUD API
+├── 10-EntityFrameworkCore/     # EF Core against PostgreSQL
+└── 11-NoSqlCosmosDb/           # Cosmos DB with .NET Aspire
 ```
 
 ### Anatomy of a Project
@@ -323,6 +360,18 @@ Use this checklist to track your progress:
   - [ ] CQRS implementation
   - [ ] OAuth2/OpenID Connect security
   - [ ] .NET Aspire orchestration
+- [ ] 10-EntityFrameworkCore
+  - [ ] EfCoreModeling
+  - [ ] EfCoreMigrations
+  - [ ] EfCoreQuerying
+  - [ ] EfCoreTransactions
+  - [ ] EfCoreLoggingAndHealthChecks
+- [ ] 11-NoSqlCosmosDb
+  - [ ] CosmosModeling
+  - [ ] CosmosQuerying
+  - [ ] CosmosIndexingAndThroughput
+  - [ ] CosmosChangeFeed
+  - [ ] CosmosConsistencyAndTransactions
 
 ## Contributing to Your Learning
 

@@ -1,0 +1,98 @@
+# Neo4j Community Edition supports only ONE database per instance --
+# multi-database is an Enterprise-only feature, so the "one container, many
+# databases" trick from 10-EntityFrameworkCore's docker-compose.yml doesn't
+# work here. Instead: five separate containers, one per project, each on
+# its own port pair. `docker compose up -d` once starts all five; in
+# practice you'll only be running one project's exercise at a time.
+services:
+  neo4j-modeling:
+    image: neo4j:5-community
+    container_name: netlearn-graphmodeling-neo4j
+    environment:
+      NEO4J_AUTH: neo4j/graphmodeling
+    ports:
+      - "7474:7474" # HTTP (Neo4j Browser)
+      - "7687:7687" # Bolt (driver protocol)
+    volumes:
+      - graphmodeling-neo4j-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -O /dev/null -q http://localhost:7474 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  neo4j-querying:
+    image: neo4j:5-community
+    container_name: netlearn-graphquerying-neo4j
+    environment:
+      NEO4J_AUTH: neo4j/graphquerying
+    ports:
+      - "7475:7474"
+      - "7688:7687"
+    volumes:
+      - graphquerying-neo4j-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -O /dev/null -q http://localhost:7474 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  neo4j-traversals:
+    image: neo4j:5-community
+    container_name: netlearn-graphtraversals-neo4j
+    environment:
+      NEO4J_AUTH: neo4j/graphtraversals
+    ports:
+      - "7476:7474"
+      - "7689:7687"
+    volumes:
+      - graphtraversals-neo4j-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -O /dev/null -q http://localhost:7474 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  neo4j-algorithms:
+    image: neo4j:5-community
+    container_name: netlearn-graphalgorithms-neo4j
+    environment:
+      NEO4J_AUTH: neo4j/graphalgorithms
+      # The Graph Data Science library -- free, self-managed, Community
+      # Edition-compatible for the algorithms this project uses (PageRank,
+      # Louvain, node similarity). Only this container needs it, so the
+      # other four skip the extra startup time.
+      NEO4J_PLUGINS: '["graph-data-science"]'
+    ports:
+      - "7477:7474"
+      - "7690:7687"
+    volumes:
+      - graphalgorithms-neo4j-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -O /dev/null -q http://localhost:7474 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  neo4j-transactions:
+    image: neo4j:5-community
+    container_name: netlearn-graphtransactions-neo4j
+    environment:
+      NEO4J_AUTH: neo4j/graphtransactions
+    ports:
+      - "7478:7474"
+      - "7691:7687"
+    volumes:
+      - graphtransactions-neo4j-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -O /dev/null -q http://localhost:7474 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  graphmodeling-neo4j-data:
+  graphquerying-neo4j-data:
+  graphtraversals-neo4j-data:
+  graphalgorithms-neo4j-data:
+  graphtransactions-neo4j-data:

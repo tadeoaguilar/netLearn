@@ -145,7 +145,13 @@ later projects assume you're comfortable with the domain shape and partition
 key from the first one.
 
 ## Next Module
-This is currently the last module. If you haven't already, go back and
-compare this module's `CosmosConsistencyAndTransactions` project against
+Continue to [12-AzureFunctionsServerless](../12-AzureFunctionsServerless/)
+for serverless compute and Entra ID security, or
+[13-GraphDatabaseNeo4j](../13-GraphDatabaseNeo4j/) for the third data model
+this repo covers — graph, after relational (module 10) and document (this
+one).
+
+If you haven't already, it's also worth going back and comparing this
+module's `CosmosConsistencyAndTransactions` project against
 [10-EntityFrameworkCore/EfCoreTransactions](../10-EntityFrameworkCore/EfCoreTransactions/)
 — same problem (concurrent writes, atomicity), two very different answers.

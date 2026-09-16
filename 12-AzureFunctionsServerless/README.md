@@ -232,6 +232,9 @@ After completing this module, review it alongside:
   persistence layer looks like, in contrast with this module's
   deliberately simple in-memory store.
 
+Continue to **`13-GraphDatabaseNeo4j`** for the repo's third data model
+(graph, after relational and document).
+
 ---
 
 **Ready to start?** Open [GETTING_STARTED.md](GETTING_STARTED.md), then

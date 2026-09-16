@@ -25,9 +25,10 @@ truth for what is where:
 | 10 · EF Core & PostgreSQL | ✅ | ✅ | **Ready** — 145 tests |
 | 11 · NoSQL & Cosmos DB | ✅ | ✅ | **Ready** — 89 tests |
 | 12 · Serverless Azure Functions | ✅ | ✅ | **Ready** — 10 tests |
+| 13 · Graph Database (Neo4j) | ✅ | ✅ | **Ready** — 114 tests |
 
-**All twelve modules are complete.** `dotnet build netLearn.sln` builds 91
-projects; `dotnet test netLearn.sln` runs **551 tests**.
+**All thirteen modules are complete.** `dotnet build netLearn.sln` builds
+106 projects; `dotnet test netLearn.sln` runs **665 tests**.
 
 Everything through module 09 runs with no external services (module 09
 additionally offers PostgreSQL via .NET Aspire and Keycloak via Docker
@@ -45,11 +46,16 @@ Aspire-based integration tests do the same. Module 12 needs no Docker at
 all: its C# work (an Entra ID-secured Azure Function, no database) builds
 and its 10 tests run and pass with nothing but the .NET SDK — only its
 Bicep/deployment section (Part 4) touches Azure, and that's the user's own
-subscription to run, same opt-in policy as modules 06/10/11.
+subscription to run, same opt-in policy as modules 06/10/11. Module 13
+needs Docker: Neo4j Community Edition only supports one database per
+instance, so unlike module 10's single shared Postgres container, its
+`docker-compose.yml` starts **five separate Neo4j containers**, one per
+project — each project's tests spin up their own throwaway container via
+Testcontainers instead, same pattern as modules 10/11.
 
 ## Learning Path Overview
 
-This repository is organized into 12 progressive modules, each focusing on critical architectural concepts:
+This repository is organized into 13 progressive modules, each focusing on critical architectural concepts:
 
 ### 1. Dependency Injection (01-DependencyInjection/)
 **Goal**: Master IoC containers and DI patterns in .NET
@@ -200,12 +206,25 @@ This repository is organized into 12 progressive modules, each focusing on criti
 
 ---
 
+### 13. Graph Database with Neo4j (13-GraphDatabaseNeo4j/)
+**Goal**: Master the third data model this repo covers — graph, after relational (module 10) and document (module 11) — on a small, deliberately relationship-heavy professional-network dataset
+
+- **GraphModeling**: Nodes, relationships, and properties as first-class data; labels vs. relationship types; uniqueness constraints and indexes
+- **GraphQuerying**: Cypher through the official .NET driver, parameterized queries, pattern matching, variable-length relationships, aggregation and pagination
+- **GraphTraversals**: `shortestPath()`/`allShortestPaths()`, mutual connections, degrees of separation — questions a relational recursive CTE or a document model can't answer nearly as well
+- **GraphAlgorithms**: The Graph Data Science library — PageRank, Louvain community detection, node similarity — real graph analytics, not just traversal
+- **GraphTransactions**: Multi-node, multi-relationship ACID transactions and node-level locking, contrasted directly with module 11's partition-scoped `TransactionalBatch`
+
+**Key Skills**: Graph data modeling, Cypher, traversal algorithms, graph analytics, and transactional guarantees that span an entire graph rather than one partition — Neo4j Community Edition's one-database-per-instance limit also means this module's Docker setup (five separate containers, one per project) is its own small lesson in working around a real constraint
+
+---
+
 ## Getting Started
 
 ### Prerequisites
 - .NET 9.0 SDK (pinned in `global.json`; every project targets `net9.0`)
 - Visual Studio 2022 / Rider / VS Code
-- Docker (for distributed systems examples, and required for modules 10-11)
+- Docker (for distributed systems examples, and required for modules 10, 11 and 13)
 - Basic understanding of C# and OOP principles
 
 ### Installation
@@ -216,7 +235,7 @@ cd netLearn
 
 # Build and test everything
 dotnet build netLearn.sln
-dotnet test netLearn.sln          # 551 tests (modules 10-11 need Docker; module 12's need nothing)
+dotnet test netLearn.sln          # 665 tests (modules 10, 11 and 13 need Docker; module 12's need nothing)
 
 # Or start with the first module
 dotnet run --project 01-DependencyInjection/BasicDI/BasicDI
@@ -256,7 +275,8 @@ netLearn/
 ├── 09-EnterpriseCRUD/          # Complete enterprise CRUD API
 ├── 10-EntityFrameworkCore/     # EF Core against PostgreSQL
 ├── 11-NoSqlCosmosDb/           # Cosmos DB with .NET Aspire
-└── 12-AzureFunctionsServerless/ # Serverless Functions, Entra ID, Bicep
+├── 12-AzureFunctionsServerless/ # Serverless Functions, Entra ID, Bicep
+└── 13-GraphDatabaseNeo4j/       # Graph database with Neo4j
 ```
 
 ### Anatomy of a Project
@@ -403,6 +423,12 @@ Use this checklist to track your progress:
   - [ ] Part 2 - Secure it with Entra ID
   - [ ] Part 3 - Managed Identity + Key Vault
   - [ ] Part 4 - Infrastructure as Code with Bicep
+- [ ] 13-GraphDatabaseNeo4j
+  - [ ] GraphModeling
+  - [ ] GraphQuerying
+  - [ ] GraphTraversals
+  - [ ] GraphAlgorithms
+  - [ ] GraphTransactions
 
 ## Contributing to Your Learning
 
